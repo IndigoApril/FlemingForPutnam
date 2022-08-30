@@ -1,0 +1,30 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <FlemingForPutnamAssetsFilePath>$(MSBuildThisFileDirectory)..\wwwroot\**\*.*</FlemingForPutnamAssetsFilePath>
+    <FlemingForPutnamViewsFilePath>$(MSBuildThisFileDirectory)..\Views\**\*.*</FlemingForPutnamViewsFilePath>
+  </PropertyGroup>
+
+  <Target Name="CopyFlemingForPutnamAssets" BeforeTargets="Build">
+    <ItemGroup>
+      <FlemingForPutnamAssetFiles Include="$(FlemingForPutnamAssetsFilePath)" />
+    </ItemGroup>
+    <Message Text="Copying FlemingForPutnam Asset files: $(FlemingForPutnamAssetFilesPath) - #@(FlemingForPutnamAssetFiles->Count()) files"  Importance="high" />
+    <Copy
+        SourceFiles="@(FlemingForPutnamAssetFiles)"
+        DestinationFiles="@(FlemingForPutnamAssetFiles->'$(MSBuildProjectDirectory)\wwwroot\%(RecursiveDir)%(Filename)%(Extension)')"
+        SkipUnchangedFiles="true" />
+  </Target>
+
+  <Target Name="CopyFlemingForPutnamViews" BeforeTargets="Build">
+    <ItemGroup>
+      <FlemingForPutnamViewsFiles Include="$(FlemingForPutnamViewsFilePath)" />
+    </ItemGroup>
+    <Message Text="Copying FlemingForPutnam Views files: $(FlemingForPutnamViewsFilesPath) - #@(FlemingForPutnamViewsFiles->Count()) files"  Importance="high" />
+    <Copy
+      SourceFiles="@(FlemingForPutnamViewsFiles)"
+      DestinationFiles="@(FlemingForPutnamViewsFiles->'$(MSBuildProjectDirectory)\Views\%(RecursiveDir)%(Filename)%(Extension)')"
+      SkipUnchangedFiles="true" />
+  </Target>
+  
+</Project>
