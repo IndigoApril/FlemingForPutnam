@@ -1,0 +1,59 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.NewsItemPage>
+
+@using Umbraco.Cms.Web.Common.PublishedModels;
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+
+
+@{
+	Layout = "Master.cshtml";	
+	var page = (NewsItemPage)Model;
+	var pageTitle = page.Title;
+	var pageSubTitle = page.SubTitle;
+	var pageAuthor = page.Author;
+	var pageUrl = page.GetCanonicalUrl();
+	var pageImage = page.MainImage.GetCropUrl(800, 600);
+	var printHeader = pageTitle != null || pageSubTitle != null || pageAuthor != null;
+	var pageContent = page.MainContent;
+	var itemDate = page.UpdateDate;
+	string[] months = new string[] { "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC" };
+	var idx = itemDate.Month - 1;
+	var dateString = itemDate.Day.ToString().PadLeft(2, '0') + "-" + months[idx] + "-" + itemDate.Year
+			+ " " + itemDate.Hour.ToString().PadLeft(2, '0') + ":" + itemDate.Minute.ToString().PadLeft(2, '0')
+			+ ":" + itemDate.Second.ToString().PadLeft(2, '0');
+}
+
+@if(pageImage != null) {
+	<div class="row justify-content-md-center">
+		<div class="col-md-auto">
+			<img src="@pageImage" class="img-fluid align-content-center" />
+		</div>
+	</div>	
+} 
+
+@if (printHeader) 
+{
+	<div class="row justify-content-md-center">
+		<div class="col-md-auto">
+			@if(pageTitle != null) {
+				<h1>@pageTitle</h1>
+			}
+			@if(pageSubTitle != null) {
+				<p class="lead">@pageSubTitle</p>
+			}
+			@if(pageAuthor != null) {
+				<span>By @pageAuthor </span><br/>
+				<span class="site-page-timestamp">Last updated: @dateString</span>
+			} else {
+				<span class="site-page-timestamp">Last updated: @dateString</span>
+			}
+		</div>
+	</div>
+}
+
+@if(page.MainContent != null) {
+	<div class="container">@pageContent</div>
+}
+
+
+
+

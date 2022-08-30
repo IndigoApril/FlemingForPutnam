@@ -1,0 +1,62 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+
+@using Umbraco.Cms.Core
+@using Umbraco.Cms.Core.Models.PublishedContent
+@using Umbraco.Cms.Core.Routing
+@using Umbraco.Extensions
+
+@inject IPublishedValueFallback PublishedValueFallback
+@inject IPublishedUrlProvider PublishedUrlProvider
+@*
+    This snippet displays a list of links of the pages immediately under the top-most page in the content tree.
+    This is the home page for a standard website.
+    It also highlights the current active page/section in the navigation with the CSS class "current".
+*@
+
+@{
+    var homePage = Model.AncestorOrSelf<ContentModels.HomePage>();
+    //var homePageUrl = homePage.Url(PublishedUrlProvider);
+
+}
+
+
+<div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 px-3 mb-0 site-navbar">
+    <a href="@homePage.Url(PublishedUrlProvider)" 
+        class="d-flex align-items-center col-md-2 mb-0 mb-md-0 text-dark text-decoration-none px-0">
+        @* FlemingForPutnamLogoBlue188x120 *@
+        <img src="~/img/FlemingForPutnamLogo_NavyWhite190x120.png" width="94" height="60" />
+    </a>
+
+    <ul class="nav col-12 col-md-6 mb-2 justify-content-center mb-md-0 site-text-light ">
+       @* <li>
+            <a href="@homePage.Url(PublishedUrlProvider)"  class="nav-link">
+                <i class="bi-house-fill fs-6 site-home-icon"></i>
+            </a>
+        </li>*@
+        @{
+            // homePage.Children.Where(x => !x.Value<bool>("umbracoNaviHide"));
+            var navPages = homePage.Children
+                .Where(x => (!x.Value<bool>("umbracoNaviHide") && !x.Value<bool>("hideFromNavigation")))
+                .OrderBy( s => s.Value<int>("SortOrder"));
+
+            foreach (var navPage in navPages)
+            {
+                var linkClass = "nav-link site-text-light";
+                var itemClass = "site-nav site-text-light";
+                    <li class="@itemClass">
+                        <a href="@navPage.Url(PublishedUrlProvider)" class="@linkClass">@navPage.Name</a>
+                    </li>
+            }            
+        }
+    </ul>
+
+    <div class="nav col-md-2 text-end site-nav-button-bar justify-content-end">
+
+        <a href="@Url.Content("~/Login/")" class="btn btn-outline-light me-2 btn-sm">Sign-In</a>
+        <a href="@Url.Content("~/donate/")" class="btn btn-primary me-2 btn-sm site-btn-primary">Donate</a>
+        @*@await Html.PartialAsync("memberLoginStatus")*@
+   
+    </div>
+        
+</div>

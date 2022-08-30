@@ -1,0 +1,45 @@
+﻿@using Umbraco.Cms.Core
+@using Umbraco.Cms.Core.Media
+@using Umbraco.Cms.Core.Models.PublishedContent
+@using Umbraco.Cms.Core.Routing
+@using Umbraco.Extensions
+
+@inject IPublishedValueFallback PublishedValueFallback
+@inject IPublishedContentQuery PublishedContentQuery
+@inject IVariationContextAccessor VariationContextAccessor
+@inject IPublishedUrlProvider PublishedUrlProvider
+@inject IImageUrlGenerator ImageUrlGenerator
+
+
+@*
+@using Umbraco.Cms.Web.Common.PublishedModels;
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Macros.PartialViewMacroPage;
+*@
+
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.PhotosPage>
+
+@{
+    Layout = "Master.cshtml";
+    var mediaIds = "";
+    var photosPage = (ContentModels.PhotosPage)Model;
+    var treePicker = photosPage.MultiTreePicker;
+    var list = "";
+    foreach (var n in treePicker) {
+        if (list == "") {
+            list = n.Id.ToString();
+        }
+        else {
+            list = list + "," + n.Id.ToString();
+        }
+    }
+
+    mediaIds = list;
+    TempData["photoGalleryMediaIds"] = mediaIds;
+
+}
+
+
+@await Html.PartialAsync("photoGallery")

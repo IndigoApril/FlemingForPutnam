@@ -1,0 +1,16 @@
+{
+  "dashboards": [
+    {
+      "alias": "siteHelpDashboard",
+      "view": "/App_Plugins/siteHelpDashboard/siteHelpDashboard.html",
+      "sections": [ "content" ],
+      "weight": -10,
+      "access": [
+        { "deny": "translator" },
+        { "grant": "admin,editor,writer" }
+      ]
+    }
+  ],
+  "javascript": [ /* javascript files listed here */ ],
+  "css": [ "/App_Plugins/siteHelpDashboard/siteHelpDashboard.css" ]
+}

@@ -1,0 +1,50 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.HomePage> 
+
+
+@{
+	Layout = "Master.cshtml";
+}
+
+@{
+    var mediaIds = "";
+    var page = (ContentModels.HomePage)Model;
+    var mainContent = page.MainContent;
+    //var treePicker = page.PagePhotoGalleryPicker;
+    //if (treePicker != null)
+    //{
+    //    var list = "";
+    //    foreach (var n in treePicker)
+    //    {
+    //        if (list == "")
+    //        {
+    //            list = n.Id.ToString();
+    //        }
+    //        else
+    //        {
+    //            list = list + "," + n.Id.ToString();
+    //        }
+    //    }
+    //    mediaIds = list;
+    //}
+}
+
+
+@if (mainContent != null)
+{
+    <div class="container">
+        @Html.GetBlockListHtml(Model, "mainContent")
+    </div>
+}
+
+<div>
+    @if (mediaIds != "" && mediaIds.Length > 0)
+    {
+        TempData["photoGalleryMediaIds"] = mediaIds;
+        @Html.PartialAsync("photoGallery")
+    }
+</div>
+

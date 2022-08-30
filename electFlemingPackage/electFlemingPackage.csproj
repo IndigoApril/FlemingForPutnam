@@ -1,0 +1,52 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <Version>1.0.0</Version>
+    <InformationalVersion>1.0.0</InformationalVersion>
+    <TargetFramework>net6.0</TargetFramework>
+    <Authors>Lab Objects</Authors>
+    <ContentTargetFolders>.</ContentTargetFolders>
+    <Product>ElectMaureenFlemingWebsiteKit</Product>
+    <PackageId>ElectMaureenFlemingWebsiteKit</PackageId>
+    <Title>ElectMaureenFlemingWebsiteKit</Title>
+    <Description>Migration of flemingforputnam.com</Description>
+    <PackageProjectUrl></PackageProjectUrl>
+    <PackageIcon></PackageIcon>
+    <PackageIconUrl></PackageIconUrl>
+    <RepositoryUrl></RepositoryUrl>
+    <RepositoryType></RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile></PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="build\**\*.*">
+      <Pack>True</Pack>
+      <PackagePath>buildTransitive</PackagePath>
+    </None>
+
+    <Content Include="wwwroot\**\*.*">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </Content>
+
+    <None Remove="Views\Components\Contact\default.cshtml" />
+
+    <Content Include="Views\**\*.*">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </Content>
+
+    <None Remove="Migrations\package.zip" />
+    <EmbeddedResource Include="Migrations\package.zip" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Umbraco.Cms.Web.BackOffice" Version="10.1.0" />
+  </ItemGroup>
+
+  
+  
+</Project>

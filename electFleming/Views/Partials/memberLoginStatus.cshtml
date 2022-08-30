@@ -1,0 +1,55 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+
+@using Microsoft.AspNetCore.Http.Extensions
+@using Umbraco.Cms.Web.Common.Models
+@using Umbraco.Cms.Web.Website.Controllers
+@using Umbraco.Extensions
+
+@{
+    var userName = "";
+    var isLoggedIn = Context.User?.Identity?.IsAuthenticated ?? false;
+    if (isLoggedIn) {
+        userName = Context.User.Identity.Name;
+    }
+
+    var logoutModel = new PostRedirectModel();
+    // You can modify this to redirect to a different URL instead of the current one
+    // get current url
+    logoutModel.RedirectUrl = null;
+}
+
+@if (isLoggedIn)
+{
+    <div class="site-navbar-member">
+        
+                <a href="#" >
+                    <span><i class="bi-person-circle"></i>@userName</span>
+                </a>
+         
+            
+            @using (Html.BeginUmbracoForm<UmbLoginStatusController>("HandleLogout", new { RedirectUrl = logoutModel.RedirectUrl }))
+            {
+               
+                    <a href="#" >
+                        <span><i class="bi-box-arrow-in-left"></i> Logout</span>
+                    </a>                             
+            }
+
+    </div>
+}
+else 
+{
+    <div class="site-navbar-member">
+        <a href="#" >
+            <span><i class="bi-person"></i> Sign-Up</span>
+        </a>
+        
+        @using (Html.BeginUmbracoForm<UmbLoginStatusController>("HandleLogin", new { RedirectUrl = logoutModel.RedirectUrl }))
+        {
+            @*<a href="#" class="btn btn-outline-primary btn-sm">*@
+            <a href="#" >
+                <span><i class="bi-box-arrow-in-right"></i> Login</span>
+            </a>
+        }
+    </div>
+}

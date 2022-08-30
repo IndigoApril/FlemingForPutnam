@@ -1,0 +1,49 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@*@using electFleming.Models;*@
+@using Umbraco.Cms.Core.Models;
+@using Umbraco.Cms.Web.Common.PublishedModels;
+
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockListItem>;
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+
+@{
+    var heroCard = (ContentModels.HeroCard)Model.Content;
+    var settings = (ContentModels.HeroCardSettings)Model.Settings;
+
+    var heroMedia = heroCard.Value<MediaWithCrops>("heroImage");
+    var imageUrl = heroMedia.GetCropUrl("heroDefault");
+
+    var callToActions = heroCard.CallToActions;
+
+}
+
+<div class="container col-xxl-10 px-4 py-5 mb-3">
+        <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+            <div class="col-10 col-sm-8 col-lg-6">
+                @if (imageUrl != null) {
+                    <img src="@imageUrl" class="d-block mx-lg-auto img-fluid" 
+                        alt="Hero Image" width="700" height="500" loading="lazy">
+                }
+            </div>
+            <div class="col-10 col-lg-6">
+                @if (@heroCard.Title != null) {
+                    <h1 class="display-5 fw-bold lh-1 mb-3">@heroCard.Title</h1>
+                }
+                @if (@heroCard.LedeText != null) {
+                        <p class="lead">@heroCard.LedeText</p>
+                }
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                   @foreach (var widget in heroCard.CallToActions) {
+                        var widget_content = (ContentModels.CallToAction) widget.Content;
+                        var widget_settings = (ContentModels.CallToActionSettings) widget.Settings;
+                         var link_type = widget_settings.Style.Replace("button", "btn");
+                        <a href="@widget_content.Link.Url" class="btn @link_type btn-lg px-4 me-md-2">@widget_content.Link.Name</a>
+                    }
+                </div>
+            </div>
+        </div>
+</div>
+

@@ -1,0 +1,55 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@using Umbraco.Cms.Core.Models;
+@using Umbraco.Cms.Web.Common.PublishedModels;
+
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockListItem>;
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+
+@{
+    var heroCard = (ContentModels.HeroCard)Model.Content;
+    var settings = (ContentModels.HeroCardSettings)Model.Settings;
+
+    var heroMedia = heroCard.Value<MediaWithCrops>("heroImage");
+    var imageUrl = heroMedia.GetCropUrl("heroLarge");
+
+    var callToActions = heroCard.CallToActions;
+
+}
+
+<div class="px-4 pt-5 my-5 text-center mb-3">
+    @if (heroCard.Title != null)
+    {
+        <h1 class="display-4 fw-bold">@heroCard.Title</h1>
+    }
+
+
+    <div class="col-lg-6 mx-auto">
+        @if (heroCard.LedeText != null)
+        {
+            <p class="lead mb-4">@heroCard.LedeText</p>
+        }
+       @if (callToActions != null) {
+            foreach (var widget in callToActions)
+            {
+                var widget_content = (ContentModels.CallToAction)widget.Content;
+                var widget_settings = (ContentModels.CallToActionSettings)widget.Settings;
+                 var link_type = widget_settings.Style.Replace("button", "btn");
+                <a href="@widget_content.Link.Url" class="btn @link_type btn-lg px-4">@widget_content.Link.Name</a>
+            }
+       }
+
+    </div>
+    <div class="overflow-hidden" style="max-height: 30vh;">
+        @if (imageUrl != null) {
+            <div class="container px-5">
+                <img src="@imageUrl" class="img-fluid border rounded-3 shadow-lg mb-4" alt="" width="700" height="500" loading="lazy">
+            </div>
+        }
+
+    </div>
+</div>
+
+

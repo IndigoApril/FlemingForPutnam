@@ -1,0 +1,58 @@
+﻿
+@using Umbraco.Cms.Core
+@using Umbraco.Cms.Core.Media
+@using Umbraco.Cms.Core.Models.PublishedContent
+@using Umbraco.Cms.Core.Routing
+@using Umbraco.Extensions
+
+@inject IPublishedValueFallback PublishedValueFallback
+@inject IPublishedContentQuery PublishedContentQuery
+@inject IVariationContextAccessor VariationContextAccessor
+@inject IPublishedUrlProvider PublishedUrlProvider
+@inject IImageUrlGenerator ImageUrlGenerator
+
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+
+@{
+    var mediaIds = "";
+    var param = TempData["photoGalleryMediaIds"];
+    if (param != null) {
+        mediaIds = param.ToString();
+    }
+    else {
+        mediaIds = null;
+    }
+}
+
+@if (mediaIds != null)
+{
+    <div class="row">
+        @foreach (var mediaId in mediaIds.Split(','))
+        {
+            var media = PublishedContentQuery.Media(mediaId);
+
+            @* a single image *@
+            if (media.IsDocumentType("Image"))
+            {
+                <div class="col p-3">
+                    <a href="@media.Url(PublishedUrlProvider)" class="thumbnail">
+                        <img src="@media.GetCropUrl(ImageUrlGenerator, PublishedValueFallback, PublishedUrlProvider, width: 400, height: 400)" alt="@media.Name" />
+                    </a>
+                </div>
+            }
+
+            @* a folder with images under it *@
+            foreach (var image in media.Children(VariationContextAccessor))
+            {
+                <div class="col p-3">
+                    <a href="@image.Url(PublishedUrlProvider)" class="thumbnail">
+                        <img src="@image.GetCropUrl(ImageUrlGenerator, PublishedValueFallback, PublishedUrlProvider, width: 400, height: 400)" alt="@image.Name" />
+                    </a>
+                </div>
+            }
+        }
+    </div>
+}
+else {
+    <p class="text-danger">Sorry, somthing went wrong. The photo gallery is not available.</p>
+}

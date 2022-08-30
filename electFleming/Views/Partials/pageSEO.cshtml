@@ -1,0 +1,64 @@
+﻿
+
+@using Umbraco.Cms.Web.Common.PublishedModels;
+
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels
+@using electFleming.Core.Extensions
+
+@{
+    var homePage = Model.AncestorOrSelf<ContentModels.HomePage>();
+    var content_type = Model.ContentType;
+    var currentPage = Model;
+
+    var home_meta_title = homePage.GetMetaTitle();
+    var home_meta_description = homePage.GetMetaDescription();
+    var home_page_title = homePage.GetPageTitle();
+
+    var meta_title = currentPage.GetMetaTitle();
+    var meta_description = currentPage.GetMetaDescription();
+    var page_author = currentPage.GetPageAuthor();
+    var page_title = currentPage.GetPageTitle();
+    var page_image = homePage.GetPageImageUrl();
+    var page_thumbnail = "";
+    var canonicalUrl = currentPage.GetCanonicalUrl();
+
+}
+
+<title>@meta_title</title>
+
+<meta name="generator" content="365Objects" />
+<meta name="description" content="@meta_description" />
+
+<meta name="og:title" content="@meta_title" />
+<meta name="og:description" content="@meta_description" />
+
+@if(page_image != null && page_image.Length > 0) {
+    <meta name="og:image" content="@page_image" />
+}
+
+
+<meta name="t:title" content="@meta_title" />
+<meta name="og:description" content="@meta_description" />
+@if (page_image != null && page_image.Length > 0)
+{
+    <meta name="og:image" content="@page_image" />
+}
+
+<meta property="og:type" content="article" />
+
+@if(page_author != null && page_author.Length > 0) {
+    <meta name="og:author" content="@page_author" />
+}
+
+<meta property="og:url" content="@canonicalUrl" />
+
+@*
+<meta name="twitter:card" content="summary"><!-- required -->
+<meta name="twitter:site" content="@@flemingforputnam"><!-- required -->
+<meta name="twitter:title" content="@meta_title"><!-- required -->
+<meta name="twitter:description" content="@meta_description"><!-- optional -->
+<meta name="twitter:image" content="@page_thumbnail"><!-- optional -->
+<meta name="twitter:image:alt" content="Image text description"><!-- optional -->
+*@

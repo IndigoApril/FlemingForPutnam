@@ -1,0 +1,152 @@
+﻿@*
+Features Default
+*@
+
+@using Umbraco.Cms.Core.Models;
+@using Umbraco.Cms.Web.Common.PublishedModels;
+
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockListItem>;
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+
+
+@{
+    var featuresContent = (ContentModels.FeaturesBlock)Model.Content;
+    var featuresTitle = featuresContent.Title;
+    var featuresActions = featuresContent.CallToActions;
+    var featureBlocks = featuresContent.FeaturesBlockList;
+    var featuresType = "Feature Columns";
+
+}
+
+
+
+
+<div class="container px-4 py-5" id="featured-3">
+
+    <h2 class="pb-2 border-bottom">@featuresTitle</h2>
+
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+
+        @foreach (var featureBlock in featureBlocks) {
+            var contentType = featureBlock.Content.ContentType.Alias;
+            if (contentType == "featuresImageBlock")
+            {
+                var imageBlock = (ContentModels.FeaturesImageBlock)featureBlock.Content;
+                var image = imageBlock.BlockImage;
+                var imageUrl = image.GetCropUrl(300, 300);
+                <div class="feature col-10 col-md-4 container">
+                    <img class="img-fluid" src="@imageUrl" />
+                </div>
+            }
+            else if (contentType == "richTextBlock1")
+            {
+                var rtfBlock = (ContentModels.RichTextBlock1)featureBlock.Content;
+                var rtf = rtfBlock.RichTextContent;
+                <div class="feature col-10 col-md-4">
+                    @rtf
+                </div>
+            }
+            else if (contentType == "featuresListBlock")
+            {
+                var feature = (ContentModels.FeaturesListBlock)featureBlock.Content;
+                var featureSettings = (ContentModels.FeatureListBlockSettings)featureBlock.Settings;
+                var titleClass = "text-primary";
+                var titleColor = featureSettings.TitleColor;
+                if (titleColor != null && titleColor.Length > 0) {
+                    titleClass = "text-" + titleColor;
+                }
+
+                var bulletPoints = feature.BulletPoints;
+                var haveImage = (feature.BlockImage != null);
+                var imageUrl = "";
+
+                var singleImage = feature.Value<MediaWithCrops>("blockImage");
+                if (singleImage != null) {
+                    imageUrl = singleImage.GetCropUrl(300, 200);
+                }
+                else {
+                    foreach (var imageItem in feature.BlockImage)
+                    {
+                        var crop_url = imageItem.GetCropUrl(300, 200);
+                        if (crop_url != null && crop_url.Length > 0)
+                        {
+                            imageUrl = crop_url;
+                            break;
+                        }
+                    }
+                }
+                               
+
+                <div class="feature col">
+                    @if (imageUrl != "")
+                    {
+                        <img src="@imageUrl" width="300" height="200" class="img-fluid" />
+                    }
+
+                     @if (feature.Title != null && feature.Title.Length > 0) {
+                        <h2 class="@titleClass">@feature.Title</h2>
+                    }
+                    @if (feature.SubTitle != null && feature.SubTitle.Length > 0) {
+                        <p>@feature.SubTitle</p>
+                    }
+                    
+                    @if (bulletPoints != null && bulletPoints.Count > 0)
+                    {
+                        <ul>
+
+                            @foreach (var bp in bulletPoints)
+                            {
+                                var pt = (ContentModels.BulletPoint)bp.Content;
+                                <li>
+                                    @pt.Text;
+                                </li>
+                            }
+                        </ul>
+                    }
+
+                    @if (feature.CallsToAction != null)
+                    {
+                        foreach (var callBlk in feature.CallsToAction)
+                        {
+                            var callToAction = (ContentModels.CallToAction)callBlk.Content;
+                            var settings = (ContentModels.CallToActionSettings)callBlk.Settings;
+                            var style = settings.Style.Replace("button", "btn");
+                            if (style == null || style == "")
+                            {
+                                style = "btn-primary";
+                            }
+                            var link_target = callToAction.Link.Target;
+                            <a href="@callToAction.Link.Url" class="btn @style" target="@link_target">
+                                @callToAction.Link.Name
+                            </a>
+                        }
+
+                    }
+                </div>
+            }
+            else {
+
+            }
+
+
+            
+        }        
+    </div>
+    <div>
+        @if (featuresActions != null) {
+            foreach(var featureActionBlk in featuresActions) {
+                var callToAction = (ContentModels.CallToAction)featureActionBlk.Content;
+                var settings = (ContentModels.CallToActionSettings)featureActionBlk.Settings;
+                var style = settings.Style.Replace("button", "btn");
+                if (style == null || style == "")
+                {
+                    style = "btn-primary";
+                }
+                var link_target = callToAction.Link.Target;
+                <a href="@callToAction.Link.Url" class="btn @style" target="@link_target">
+                    @callToAction.Link.Name
+                </a>
+            }
+        }
+    </div>
+</div>

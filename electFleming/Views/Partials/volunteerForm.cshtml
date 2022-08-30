@@ -1,0 +1,27 @@
+﻿
+@using electFleming.Controllers.Surface
+@using electFleming.ViewModels
+@model electFleming.ViewModels.ContactFormViewModel
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContactFormViewModel>
+
+
+@using (Html.BeginUmbracoForm<ContactFormController>("SubmitVolunteerReq"))
+{
+    <div class="form-group">
+        @Html.LabelFor( m => m.Name, new {@class="form-label" })
+        @Html.TextBoxFor( m => m.Name, new {@class="form-control" } )
+    </div>
+    <div class="form-group">
+        @Html.LabelFor( m => m.Email, new {@class="form-label" })
+        @Html.TextBoxFor( m => m.Email, new {@class="form-control" } )        
+    </div>
+    <div class="form-group">
+        @Html.LabelFor( m => m.PhoneNumber, new {@class="form-label" })
+        @Html.TextBoxFor( m => m.PhoneNumber, new {@class="form-control" } )
+    </div>
+    <div class="form-group">
+        @Html.LabelFor( m => m.Message, new {@class="form-label" })
+        @Html.TextAreaFor( m => m.Message, new {@class="form-control texta", @rows="6" } )                    
+    </div>
+    <input type="submit" class="btn btn-primary mt-3" name="Submit" value="Submit" />
+}

@@ -1,0 +1,16 @@
+﻿
+
+.site-help-dashboard {
+    color: #0D004C;
+    margin: 10px auto;
+    border: solid 1px #0093DD;
+}
+
+.site-help-dashboard h1, h2, h3, h4, h5, h6, dt {
+    color: #0093DD;
+}
+
+.site-help-dashboard ul {
+    list-style: none;
+}
+

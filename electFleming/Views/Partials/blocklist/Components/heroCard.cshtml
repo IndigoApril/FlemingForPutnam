@@ -1,0 +1,43 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@*@using electFleming.Models;*@
+@using Umbraco.Cms.Core.Models;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockListItem>;
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@{
+    var content = (ContentModels.HeroCard) Model.Content;
+    //var imageUrl = content.HeroImage.MediaUrl();
+    var settings = (ContentModels.HeroCardSettings)Model.Settings;
+    var heroType = settings.HeroType;
+    //var heroMedia = content.Value<MediaWithCrops>("heroImage");
+    //var imageUrl = heroMedia.GetCropUrl("defaultImage");
+    //var crop_hero = heroMedia.GetCropUrl("heroImage");
+}
+
+@{  
+    switch (heroType)
+    {
+        case "Responsive Left":
+            @await Html.PartialAsync("heroCardResponsiveLeft")
+            ;
+            break;
+        case "Responsive Right":
+            @await Html.PartialAsync("heroCardResponsiveRight")
+            ;
+            break;
+        case "Centered Image Below":
+            @await Html.PartialAsync("heroCardImageBelow")
+            ;
+            break;
+        case "Centered Image Above":
+            @await Html.PartialAsync("heroCardImageAbove")
+            ;
+            break;
+        default:
+            @await Html.PartialAsync("heroCardResponsiveLeft")
+            ;
+            break;
+    }
+}

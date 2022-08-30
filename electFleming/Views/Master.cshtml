@@ -1,0 +1,75 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels
+
+@{
+	Layout = null;
+    var homePage = Model.AncestorOrSelf<ContentModels.HomePage>();	
+    var page = Model;
+}
+
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        @await Html.PartialAsync("pageSEO")
+
+        <link rel="icon" type="image/png" href="@Url.Content("~/lib/img/FlemingForPutnamIcon47x32.png")" />
+
+        @*<link rel="stylesheet preload" as="style" href="@Url.Content("~/lib/bs/css/bootstrap.min.css")">*@
+        <link rel="stylesheet preload" as="style" href="@Url.Content("~/lib/css/flemingforputnam.bs.css")">
+        <link rel="stylesheet preload" as="style" href="@Url.Content("~/lib/bs/icons/bootstrap-icons.css")">
+        <link rel="stylesheet preload" as="style" href="@Url.Content("~/css/flemingforputnam.css")">
+        <link rel="stylesheet preload" as="style" href="@Url.Content("~/css/richTextStyle.css")">
+        <script>
+            CopyToClipboard = function(url) {
+                navigator.clipboard.writeText(url).then(() => {
+                  alert("Copied " + url + " to the clipboard for sharing!");
+                }, () => {
+                  alert("Failed to copy " + url + " to the clipboard for sharing!");
+                });
+            };
+        </script>
+    </head>
+    <body>
+        <div id="fb-root"></div>
+        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v14.0" nonce="dPgUV83F"></script>
+        <header class="site-header">
+            <div class="container">
+                @await Html.PartialAsync("siteNavigation")
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="d-flex flex-row-reverse flex-row-md">
+                <div class="p-2">
+                    <a href="javascript:void(0);" class="nav-link" 
+                        onclick="CopyToClipboard('@Model.GetCanonicalUrl()')"
+                        title="Share this page by copying the page link to clipboard and then paste the link in your favorite social media app!.">
+                        <i class="bi-clipboard-plus-fill text-info"></i></a></div>
+                <div class="p-2"><a href="#" class="nav-link" title="Share this page on Twitter."><i class="bi-twitter"></i></a></div>                    
+                <div class="p-2"><a href="#" class="nav-link" title="Share this page on Instagram."><i class="bi-instagram"></i></a></div>                  
+                   
+                <div class="p-2">
+                    <div class="fb-share-button" data-href="@Model.GetCanonicalUrl()" data-layout="button" data-size="small">
+                        <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fflemingforputnam.com%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore"></a></div>
+                </div>
+                <div class="p-2"><span class="text-info fst-italic">Share on: </span>
+            </div>
+        </div>
+            
+
+                    
+        <main>
+            <div class="container site-body-main">
+                @RenderBody()
+            </div>
+        </main>
+
+        @await Html.PartialAsync("siteFooter")         
+            
+        <script src="@Url.Content("/lib/bs/js/bootstrap.min.js")"></script>
+    </body>
+</html>
+

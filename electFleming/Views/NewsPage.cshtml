@@ -1,0 +1,55 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.NewsPage>
+
+@{
+	Layout = "Master.cshtml";
+	var page = (ContentModels.NewsPage)Model;
+}
+
+<h1>Photos</h1>
+
+
+@{
+	var newsItemId = "ea1289a5-fb4f-4382-89d8-184771080b6f";
+	var selection = Umbraco.Content(Guid.Parse(newsItemId))
+		.ChildrenOfType("newsItemPage")
+		.Where(
+			x => x.IsVisible() 
+				//&& x.HasProperty("HideFromNavigation")
+				//&& (x.HasValue("hideFromNavigation") == false)
+		)
+		.OrderByDescending(x => x.UpdateDate);
+}
+
+
+<div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+	@foreach (var item in selection)
+	{
+		var newsItem = (ContentModels.NewsItemPage)item;
+		var title = newsItem.Title;
+		var subTitle = newsItem.SubTitle;
+		var image = newsItem.MainImage;
+		var imageUrl = image.GetCropUrl(300, 200);
+		var itemName = newsItem.Name;
+		var itemDate = newsItem.UpdateDate;
+		string[] months = new string[] { "JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};
+		var idx = itemDate.Month - 1;
+		var dateString = itemDate.Day.ToString().PadLeft(2, '0') + "-" + months[idx] + "-" + itemDate.Year
+				+ " " + itemDate.Hour.ToString().PadLeft(2, '0') + ":" + itemDate.Minute.ToString().PadLeft(2, '0') 
+				+ ":" + itemDate.Second.ToString().PadLeft(2, '0');
+
+		<div class="feature col">						
+			<div class="d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
+				<a href="@item.Url()" class="link-dark" title="Click to read the news article.">
+					<img src="@imageUrl" class="img-fluid bd-placeholder-img card-img-top" />
+				</a>
+			</div>
+			<h3><a href="@item.Url()" class="nav-link">@itemName</a></h3>
+			<p><a href="@item.Url()" class="nav-link">@subTitle</a></p>
+			<span class="site-page-timestamp">Date: @dateString</span>
+		</div>
+
+	}
+</div>
+

@@ -1,0 +1,75 @@
+﻿
+
+@using Umbraco.Cms.Web.Common.PublishedModels;
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@using electFleming.ViewModels
+
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContactPage>
+
+
+@{
+    Layout = "Master.cshtml";
+
+    var submitted = false;
+    if (bool.TryParse(TempData["Success"]?.ToString() ?? "", out var success))
+    {
+        submitted = true;
+    }
+
+
+    var contactPage = (ContentModels.ContactPage)Model;
+    var thisPage = (IPublishedContent)Model;
+    <h1>@Model.GetPageTitle()</h1>
+
+    if (submitted)
+    {
+        <div class="p-5 mb-4 bg-light rounded-3">
+            <div class="container-fluid py-5">
+                <h1 class="display-5 fw-bold">Thank You!</h1>
+                <p class="col-md-8 fs-4">
+                Thank you for reaching out to the Fleming for Putnam campaign. 
+                Your feedback is valuable to us.
+                With your help, we'll win this election and make Putnam County Government work for you.
+                Take action today!
+                </p>
+                <a class="btn btn-primary btn-lg" href="/Donate">Donate</a>
+                <a class="btn btn-secondary btn-lg" href="/Volunteer">Volunteer</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        var contactForm = new ContactFormViewModel();
+       
+       
+       <div class="row align-items-center g-lg-5 py-5">
+          <div class="col-lg-7 text-center text-lg-start">
+            @* <h1 class="display-4 fw-bold lh-1 mb-3">Contact Us</h1> *@
+            <dl class="col-lg-10 fs-4">
+                <dt>Address</dt>
+                <dd>
+                    <address>
+                        13 Pine Trail
+                        Kent Lakes, New York  10512                       
+                    </address>                    
+                </dd>
+                <dt>Tel. and Fax</dt>
+                <dd>(845)531-2268</dd>
+                <dt>Email</dt>
+                <dd></dd>
+            </dl>           
+          </div>
+          <div class="col-md-10 mx-auto col-lg-5">
+                @await Html.PartialAsync("ContactForm",contactForm)
+          </div>
+       </div>      
+    }
+
+}
+
+
+
+
+
+
+
