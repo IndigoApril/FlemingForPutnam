@@ -12,12 +12,12 @@
     <Title>FlemingForPutnam</Title>
     <Description>FlemingForPutnam Starter Kit for Umbraco</Description>
     <PackageProjectUrl>https://github.com/prjseal/FlemingForPutnam</PackageProjectUrl>
-    <PackageIcon>logo.png</PackageIcon>
+    <PackageIcon></PackageIcon>
     <PackageIconUrl></PackageIconUrl>
     <RepositoryUrl>https://github.com/LabObjects/FlemingForPutnam</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReadmeFile></PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -37,20 +37,28 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
+
+    <Compile Remove="wwwroot\media\**" />
+
+    <Content Remove="wwwroot\media\**" />
+
+    <EmbeddedResource Remove="wwwroot\media\**" />
+
+    <None Remove="wwwroot\media\**" />
     <EmbeddedResource Include="Migrations\package.zip" />
 
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Umbraco.Cms.Web.BackOffice" Version="10.1.0" />
-    <PackageReference Include="FlemingForPutnam.Core" Version="1.0.0" />
+    <PackageReference Include="electFleming.Core" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\css\" />
     <Folder Include="wwwroot\img\" />
     <Folder Include="wwwroot\lib\" />
-    <Folder Include="wwwroot\site-assets\" />
+    <Folder Include="wwwroot\umbraco\" />
   </ItemGroup>
 
 
