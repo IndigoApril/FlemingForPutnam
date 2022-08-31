@@ -7,7 +7,7 @@ using Umbraco.Cms.Core.Models;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Extensions;
 
-namespace electFleming.Core.Extensions
+namespace FlemingForPutnam.Core.Extensions
 {
     public static class PublishedContentExtensions
     {

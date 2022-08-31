@@ -8,13 +8,13 @@
     <Authors>LabObjects</Authors>
     <ContentTargetFolders>.</ContentTargetFolders>
     <Product>FlemingForPutnam</Product>
-    <PackageId>FlemingForPutnam</PackageId>
-    <Title>FlemingForPutnam</Title>
-    <Description>FlemingForPutnam Starter Kit for Umbraco</Description>
-    <PackageProjectUrl>https://github.com/prjseal/FlemingForPutnam</PackageProjectUrl>
+    <PackageId>indigoAprilFlemingForPutnam</PackageId>
+    <Title>Fleming For Putnam</Title>
+    <Description>FlemingForPutnam Website Kit</Description>
+    <PackageProjectUrl>https://github.com/IndigoApril/FlemingForPutnam</PackageProjectUrl>
     <PackageIcon></PackageIcon>
     <PackageIconUrl></PackageIconUrl>
-    <RepositoryUrl>https://github.com/LabObjects/FlemingForPutnam</RepositoryUrl>
+    <RepositoryUrl>https://github.com/IndigoApril/FlemingForPutnam</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile></PackageReadmeFile>
