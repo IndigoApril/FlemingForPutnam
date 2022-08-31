@@ -45,13 +45,14 @@
     <EmbeddedResource Remove="wwwroot\media\**" />
 
     <None Remove="wwwroot\media\**" />
+    
     <EmbeddedResource Include="Migrations\package.zip" />
 
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Umbraco.Cms.Web.BackOffice" Version="10.1.0" />
-    <PackageReference Include="electFleming.Core" Version="1.0.0" />
+    <PackageReference Include="FlemingForPutnam.Core" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
